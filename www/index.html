@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<style>
+@font-face {
+    font-family: Lato;
+    src: url(css/Lato-Regular.ttf);
+}
+</style>
+<title>Login</title>
+</head>
+<body>
+<div id='formip'>
+	<table>
+		<tr><td colspan='2'>IP SERVIDOR</td></tr>
+		<tr><td colspan='2'>Por favor ingrese la ip de su servidor.</td><tr>
+		<tr><td>DIRECCION IP</td><td><input name='ipnumber' id='ipnumber'/></td></tr>
+		<tr><td colspan='2'><input type='button' value='Seguir' onclick='Seguir();'/></td></tr>
+	</table>
+</div>
+<div id='formlogin' style='display:none;'>
+	<table>
+		<tr><td colspan='2'>LOGIN</td></tr>
+		<tr><td>CEDULA</td><td><input name='user' id='user'/></td></tr>
+		<tr><td>PASS</td><td><input name='pass' id='pass'/></td></tr>
+		<tr><td colspan='2'><input type='button' value='login' onclick='Login();'/></td></tr>
+	</table>
+</div>
+<div id='mensaje'>
+</div>
+</body>
+<script>
+	$(document).ready(function(){
+		
+	});
+	function Seguir(){
+		$.ajax({
+		  url: "//"+$('#ipnumber').val()+"/conexionwifi/index.php",
+		  data:{equipo:1550,data:1}
+		}).done(function(resp) {
+			console.log(resp);
+			if(resp=='ok'){
+				$('#formlogin').fadeIn();
+				$('#formip').css('display','none');
+			}else if (resp=='error'){
+				$('#mensaje').html(resp+" Su equipo no está registrado.");
+			}else{
+				$('#mensaje').html(resp);
+			}
+		});
+		//window.location="//"+$('#ipnumber').val()+"/conexionwifi/";
+	}
+	
+	function Login(){
+		if($('#user').val()!=''&&$('#pass').val()!=''){
+			$.ajax({
+			  url: "//"+$('#ipnumber').val()+"/conexionwifi/index.php",
+			  data:{cedula:$('#user').val(),pass:$('#pass').val(),data:2}
+			}).done(function(resp) {
+				    console.log(resp);
+					$('#formlogin').css('display','none');
+					$('#mensaje').html(resp);
+			});
+		}else{
+			$('#mensaje').html("Por favor, ingrese los datos solicitados.");
+		}
+		//window.location="//"+$('#ipnumber').val()+"/conexionwifi/";
+	}
+</script>
+</html>
