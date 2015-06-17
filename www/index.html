@@ -6,95 +6,58 @@
 <script src="js/jquery-ui.min.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <script src="js/bootstrap.min.js"></script>
+<link href="css/autocomplete.css" rel="stylesheet">
 <script type="text/javascript" src="cordova.js"></script>
 <title>Login</title>
+<style>
+@font-face {
+    font-family: Lato;
+    src: url(css/Lato-Regular.ttf);
+}
+body{
+	font-family:Lato;
+}
+</style>
 </head>
 <body>
-<div id='formip'>
-	<table>
-		<tr><td colspan='2'>IP SERVIDOR</td></tr>
-		<tr><td colspan='2'>Por favor ingrese la ip de su servidor.</td><tr>
-		<tr><td>DIRECCION IP</td><td><input name='ipnumber' id='ipnumber'/></td></tr>
-		<tr><td colspan='2'><input type='button' value='Seguir' onclick='Seguir();'/></td></tr>
-	</table>
-</div>
-<div id='formlogin' style='display:none;'>
-	<table>
-		<tr><td colspan='2'>LOGIN</td></tr>
-		<tr><td>CEDULA</td><td><input name='user' id='user'/></td></tr>
-		<tr><td>PASS</td><td><input name='pass' id='pass'/></td></tr>
-		<tr><td colspan='2'><input type='button' value='login' onclick='Login();'/></td></tr>
-	</table>
-</div>
-<div id='formclientes' style='display:none;'>
-	<!--<div style='display:none;' id='jsonclientes'></div>
-	<table>
-		<tr><td colspan='2'>Precuenta Clientes</td></tr>
-		<tr><td colspan='2'>Por favor ingrese el nombre o cedula del cliente.</td><tr>
-		<tr><td>CLIENTE</td><td><input name='cliente' id='cliente'/></td></tr>
-		<tr><td colspan='2'><input type='button' value='Ver' onclick='VerPrecuenta();'/></td></tr>
-	</table>--->
-</div>
-<div id='mensaje'>
-<input type="button" value="imprimir" onclick="Imprimir();"/>
+<div class="view-container">
+	<section id="content">
+		<div class="panel panel-default">
+				<div class="col-lg-12 linea" id='formip' style='display:none;'>
+					<h1 style='text-align:center;'>Empecemos!</h1>
+					<table class='table'>
+						<tr><td colspan='2'>
+						<h3>Por favor ingrese la IP de su servidor</h3>
+						</td><tr>
+						<tr><td><input name='ipnumber' class='form-control input-lg' id='ipnumber' placeholder='ej. 192.168.2.227'/></td></tr>
+						<tr><td colspan='2' style='text-align:right;'><button type='button' class='btn btn-default btn-lg' value='Seguir' id='btnseguir' onclick='Seguir();'>SEGUIR</button></td></tr>
+						<tr><td style='text-align:left;'>
+						    <div class="alert alert-danger" style='display:none;' id='alerta1' role='alert'></div>
+						</td></tr>
+					</table>
+				</div>
+				<div class="col-lg-12 linea" style='display:none;' id='formlogin'>
+				<div >
+					<table class='table'>
+						<tr><td colspan='2'><h1 style='text-align:center;'>LOGIN</h1></td></tr>
+						<tr><td style='text-align:right;'>CÉDULA</td><td><input name='user' id='user' class='form-control input-lg'/></td></tr>
+						<tr><td style='text-align:right;'>PASS</td><td><input name='pass' id='pass' type='password' class='form-control input-lg'/></td></tr>
+						<tr><td colspan='2' style='text-align:right;'><button type='button' value='login' onclick='Login();' class='btn btn-danger btn-lg' id='btnlogin'>REGISTRAR</button></td></tr>
+					</table>
+					<div class="alert alert-danger" style='display:none;' id='alerta2' role='alert'></div>
+				</div>
+				</div>
+				<div class="col-lg-12 linea" id='formclientes' style='display:none;'></div>
+				<div id='inicio' class="col-md-12 linea">
+					<h1 style='text-align:center; margin-top:50px;'>PRACTISIS BAR</h1>
+					<div style='height:50px;'></div>
+					<div style='text-align:center;'><img width='60%' src='images/logopractisis.png'/></div>
+					<div style='text-align:center; padding:10px; margin:20px;'><span class="label label-default" style='font-size:20px;'>Iniciando <img src='images/loader.gif' width='20px;'/></span></div>
+				</div>
+		</div>
+	</section>
 </div>
 </body>
-<script>
-	var loged=false;
-	$(document).ready(function(){
-	});
-	function Seguir(){
-		$.ajax({
-		  url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
-		  data:{equipo:1550,data:1}
-		}).done(function(resp) {
-			console.log(resp);
-			if(resp=='ok'){
-				$('#formlogin').fadeIn();
-				$('#formip').css('display','none');
-			}else if (resp=='error'){
-				$('#mensaje').html(resp+" Su equipo no está registrado.");
-			}else{
-				$('#mensaje').html(resp);
-			}
-		});
-		//window.location="//"+$('#ipnumber').val()+"/conexionwifi/";
-	}
-	
-	function Login(){
-		if($('#user').val()!=''&&$('#pass').val()!=''){
-			$.ajax({
-			  url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
-			  data:{cedula:$('#user').val(),pass:$('#pass').val(),data:2}
-			}).done(function(resp) {
-				    console.log(resp);
-					$('#formlogin').css('display','none');
-					//$('#mensaje').html(resp);
-					loged=true;
-					$('#formclientes').html(resp);
-					$('#formclientes').css('display','block');
-			});
-		}else{
-			$('#mensaje').html("Por favor, ingrese los datos solicitados.");
-		}
-		//window.location="//"+$('#ipnumber').val()+"/conexionwifi/";
-	}
-	
-	function DatosClientes(){
-		/*$.ajax({
-			  url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
-			  data:{data:3}
-			}).done(function(resp) {
-				    console.log(resp);
-					$('#jsonclientes').html(resp);
-					$('#formclientes').css('display','block');
-			});*/
-	}
-	function Imprimir(){
-		var type = "text/html";
-		var title = "test.html";
-		var fileContent = "<html>Phonegap Print Plugin</html>";
-		window.plugins.PrintPlugin.print(fileContent,function(){console.log('success')},function(){console.log('fail')},"",type,title);
-	}
-</script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/funciones.js"></script>
 </html>
