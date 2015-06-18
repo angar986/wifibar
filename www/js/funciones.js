@@ -59,6 +59,9 @@ function Login(){
 								$('#idcliente').val(ui.item.id);
 							}
 						});
+					$('.soloInt').on('keydown',function(event,value){
+						justInt(event,$(this).val());
+					});
 					/**/
 			});
 		}else{
@@ -68,6 +71,15 @@ function Login(){
 		
 		//window.location="//"+$('#ipnumber').val()+"/conexionwifi/";
 }
+
+function justInt(e,value){
+    if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105 || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 13)){
+        return;
+        }
+    else{
+        e.preventDefault();
+        }
+    }
 	
 function ConsumosCliente(){
 	//alert($('#idcliente').val());
@@ -85,16 +97,8 @@ function ConsumosCliente(){
 			Login();
 		});
 		$('#imprimir').click(function(){
-				window.open('centvia://?udn=My+Sample+centvia+print&utt=Your+Company+%2f+Product+Name&cru=http%3a%2f%2fwww.centsoftware.com%2fcentvia%2fsamples.aspx&c_=!+0+200+200+300+1%0d%0aTEXT+4+0+20+10+Key+Lime+Soda%0d%0aTEXT+7+0+20+60+Natural+Soda%2c+Key+Lime%2c+12+ounce+can%0d%0aBT+7+0+5%0d%0aBARCODE+128+2+0+30+40+100+4000112206%0d%0aBT+OFF%0d%0aPRINT%0d%0a','_system','location=yes');
+				window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=Practisis+Wifibar&cruf=Practisis+Wifibar&ccs=yes&c_="+$('#encode64').html(),'_system','location=yes');
 		});
 		});
 	}
-}
-
-function Imprimir(){
-		var type = "text/html";
-		var title = "test.html";
-		var fileContent = "<html>Phonegap Print Plugin</html>";
-		window.plugins.PrintPlugin.print(fileContent,function(){console.log('success')},function(){console.log('fail')},"",type,title);
-
 }
