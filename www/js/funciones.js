@@ -97,7 +97,7 @@ function ConsumosCliente(){
 			Login();
 		});
 		$('#imprimir').click(function(){
-				window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=Practisis+Wifibar&cruf=Practisis+Wifibar&ccs=yes&c_="+$('#encode64').html(),'_system','location=yes');
+				window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=com.practisis.wifibar&cruf=com.practisis.wifibar&ccs=yes&c_="+$('#encode64').html(),'_system','location=yes');
 		});
 		});
 	}
