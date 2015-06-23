@@ -69,7 +69,8 @@
 			tx.executeSql('INSERT INTO LOGINDATA (ip,maquina) VALUES (?,?);',[data,'1550']);	
 		if(cual==2){
 			var midata=data.split('|');
-			tx.executeSql('UPDATE LOGINDATA SET username=?,pass=?,registrado=1',[midata[0],midata[1]]);
+			tx.executeSql('UPDATE LOGINDATA SET username=?,pass=?,maquina=?,registrado=1',[midata[0],midata[1],midata[2]]);
+			$('#barrascaja').html(midata[2]);
 		}
 	},errorCB,successCB);
  }
@@ -86,12 +87,14 @@
 		var registrado=0;
 		var usern='';
 		var pass='';
+		var maquina='';
 		for(i=0;i<res.rows.length;i++){
 			var item=res.rows.item(i);
 			ip=item.ip;
 			registrado=item.registrado;
 			usern=item.username;
 			pass=item.pass;
+			maquina=item.maquina;
 		}
 		if(ip==''){
 			if(registrado==0){
@@ -107,6 +110,7 @@
 				$('#ipnumber').val(ip);
 				$('#user').val(usern);
 				$('#pass').val(pass);
+				$('#barrascaja').html(maquina);
 				Login();
 			}else{
 				//console.log("Ahora");
@@ -121,3 +125,12 @@
 		}
     });    
  }
+ 
+function Resetear(){
+	 var db = window.openDatabase("Database", "1.0", "BarWifi", 200000);
+	 db.transaction(
+	function (tx){
+		tx.executeSql('DELETE FROM LOGINDATA',[],function(tx,res){
+		window.location.reload(true);
+	})},errorCB,successCB);
+}
