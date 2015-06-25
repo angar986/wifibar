@@ -48,7 +48,7 @@ body{
 	<section id="content" style='text-align:center;'>
 		<div class="panel panel-default" style='margin:20px; max-width:80%; position:relative; left:10%; min-height:100%; height:100%;'>
 			<div class='panel-body'>
-				<div style='display:none; text-align:right; color:#404041;' id='config'><button type="button" class="btn btn-default btn-lg" aria-label="Left Align" onclick='Resetear();'>
+				<div style='display:block; text-align:right; color:#404041;' id='config'><button type="button" class="btn btn-default btn-lg" aria-label="Left Align" onclick='Resetear();'>
   <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;<span style='font-size:12px;'>RESET</span></button></div>
 				<div class="col-lg-12 linea" id='formip' style='display:none;'>
 					<h1 style='text-align:center; margin-top:80px;'>Empecemos!</h1>
@@ -76,23 +76,37 @@ body{
 					<h1 style='text-align:center; margin-top:50px;'>PRACTISIS BAR</h1>
 					<div style='height:50px;'></div>
 					<div style='text-align:center;'><img width='250px' src='images/logopractisis.png'/></div>
-					<div style='text-align:center; padding:10px; margin:20px;'><span style='font-size:25px; color:#00b8bf;'>Iniciando <img src='images/loader.gif' width='20px;'/></span></div>
+					<div style='text-align:center; padding:10px; margin:20px;'><span style='font-size:25px; color:#00b8bf;'>Iniciando <img src='images/loader.gif' width='20px;'/></span>
+					<div style='margin-top:10px; font-size:16px;'>Si está tardando demasiado, presiona el boton reset, para volver a configurar.</div></div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
 <!--modal pagos--->
+	<div style='display:none;' id='dataemp'></div>
 	<div style='background-color:rgba(0,0,0,0.8);' class="modal fade" id="formaspago" >
 		<div class="modal-dialog" style='width:35%;'>
 		<div class='modal-content text-center'>
 			<div style='padding:5px;'>
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h1>Formas de Pago</h1>
+				<h1>Cierre de Cuenta</h1>
 			  </div>
 			<div class='modal-body'>
-			<div style='height:280px; margin-bottom:5px; overflow-y:auto; overflow-x:hidden;'>
+			<!--- div salida--->
+			<div style='padding:5px;' id='divsalida'>
+			<h3 style='text-align:left;'>Registro Salida</h3>
+			<table width='100%'>
+				<tr><td align='right'>Hombres&nbsp;</td><td><input type='number' class='form-control input-lg' id='hombres' value='0' min='0' style='margin:3px;' onclick='this.select();'/></td></tr>
+				<tr><td align='right'>Mujeres&nbsp;</td><td><input type='number' class='form-control input-lg' id='mujeres' min='0' value='0' style='margin:3px;' onclick='this.select();'/></td></tr>
+				<tr><td colspan='2'><button style='margin-top:5px;' type='button' class='btn btn-danger btn-lg' onclick='ControlarSalida();'>Listo</button></td></tr>
+			</table>
+			</div>
+			<!----->
+			<div id='divpagos' style='display:none;'>
+			<h3 style='text-align:left;'>Formas de Pago</h3>
+			<div style='height:250px; margin-bottom:10px; overflow-y:auto; overflow-x:hidden;'>
 			<table id='tablaformaspago' class='table'>
 			</table>
 			</div>
@@ -124,9 +138,11 @@ body{
 				</tr>
 			</table>
 			<div style='text-align:center; margin-top:10px;'>
-				<button type='button' class='btn btn-lg btn-danger' onclick='EnviarPagos();'>Pagar</button>
+				<button type='button' class='btn btn-lg btn-danger' onclick='VerificarFormas();'>Pagar</button>
 			</div>
-			<div class="alert alert-danger" style='display:none; margin-top:10px;' id='alerta4' role='alert'></div>
+			</div>
+			<div class="alert alert-danger" style='display:none; margin-top:10px;' id='alerta4' role='alert'>
+			</div>
 			<div id='encode64f' style='display:none;'></div>
 			</div>
 			</div>

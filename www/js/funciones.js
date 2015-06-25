@@ -53,6 +53,7 @@ function Login(){
 						$('#formclientes').slideDown(700);
 						ingresadatos(2,$('#user').val()+'|'+$('#pass').val()+'|'+$('#barrascajar').html());
 						$('#config').fadeIn('slow');
+						$('#dataemp').html($('#empdata').html());
 						/*autocomplete*/
 						/*var cli=JSON.parse($('#jsonclientes').html());
 						 var datos = $(cli).map(function(){
@@ -111,7 +112,7 @@ function ConsumosCliente(){
 		$('#btnver').html("<img src='images/loader.gif' width='15px;'/>");
 		$.ajax({
 		url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
-			data:{data:3,idcli:miid}
+			data:{data:3,idcli:miid,card:$('#card').val()}
 		}).done(function(resp) {
 		console.log(resp);
 		$('#formclientes').css('display','none');
@@ -121,7 +122,7 @@ function ConsumosCliente(){
 			Login();
 		});
 			$('#imprimir').click(function(){
-					window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=com.practisis.wifibar&cruf=com.practisis.wifibar&ccs=yes&c_="+$('#encode64').html(),'_system','location=yes');
+					window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=Practisis+Wifibar&cruf=Practisis+Wifibar&ccs=yes&c_="+$('#encode64').html(),'_system','location=yes');
 			});
 			$('#pagar').click(function(){
 				$('#invoiceTotal').html($('#spantotal').html());
@@ -133,7 +134,7 @@ function ConsumosCliente(){
 			$('#tablaformaspago').html('');
 			var formasp=JSON.parse($('#jsonformaspago').html());
 			for(var n in formasp){
-				var fila="<tr data-id='"+formasp[n].id+"'><td style='vertical-align:middle;'>"+formasp[n].forma+"</td><td><input data-id='"+formasp[n].forma+"' id='f_"+formasp[n].id+"' value='0.00' class='form-control input-lg subs' type='number' onclick='this.select();' onfocus='Faltantes("+formasp[n].id+");'/></td></tr>";
+				var fila="<tr data-id='"+formasp[n].id+"'><td style='vertical-align:middle; text-align:left;'>"+formasp[n].forma+"</td><td><input data-id='"+formasp[n].forma+"' id='f_"+formasp[n].id+"' value='0.00' class='form-control input-lg subs' type='number' onclick='this.select();' onfocus='Faltantes("+formasp[n].id+");' onchange='Faltantes("+formasp[n].id+");'/></td></tr>";
 				$('#tablaformaspago').append(fila);
 			}
 		});
@@ -149,16 +150,18 @@ function Faltantes(f){
 	$('.subs').each(function(){
 		suma+=parseFloat($(this).val());
 	});
-	console.log(suma+'-'+total);
-	if(total-suma>0)
-	$('#f_'+f).val((total-suma).toFixed(2));
-	else
-	$('#f_'+f).val('0.00');
+	//console.log(suma+'-'+total);
+	if((total-suma)>0){
+		if(parseFloat($('#f_'+f).val())==0)
+			$('#f_'+f).val((total-suma).toFixed(2));
+	}
+	//else
+	//$('#f_'+f).val('0.00');
 
-	var suma=0;
+	/*var suma=0;
 	$('.subs').each(function(){
 		suma+=parseFloat($(this).val());
-	});
+	});*/
 	
 	$('#invoicePaid').html(suma.toFixed(2));
 	if((suma-total)>0)
@@ -179,17 +182,18 @@ function EnviarPagos(){
 				arraypagos.push(formas);
 			}
 		});
-		console.log(arraypagos);
+		//console.log(arraypagos);
 		var miid=$('#idcliente').val();
 		$.ajax({
 		url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
-			data:{data:4,idcli:miid,jsonpagos:JSON.stringify(arraypagos),vuelto:$('#changeFromPurchase').html(),barras:$('#barrascaja').html()}
+			data:{data:4,idcli:miid,jsonpagos:JSON.stringify(arraypagos),vuelto:$('#changeFromPurchase').html(),barras:$('#barrascaja').html(),card:$('#cardnumber').html(),m:$('#mujeres').val(),h:$('#hombres').val(),dataemp:$('#dataemp').html()},
+		method:'post'
 		}).done(function(resp) {
 			console.log(resp);
 			var miresp=resp.split('|');
 			if(miresp[0]=='ok'){
 				$('#encode64f').html(miresp[1]);
-				window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=com.practisis.wifibar&cruf=com.practisis.wifibar&ccs=yes&c_="+$('#encode64f').html(),'_system','location=yes');
+				window.open("centvia://?utt=Practisis+Bar-Precuentas&udn=Practisis+Bar-Precuentas&cru=Practisis+Wifibar&cruf=Practisis+Wifibar&ccs=yes&c_="+$('#encode64f').html(),'_system','location=yes');
 			}else{
 				$('#alerta4').html("Ha ocurrido un error en el pago.");
 				$('#alerta4').slideDown();
@@ -199,4 +203,40 @@ function EnviarPagos(){
 		$('#alerta4').html("El valor pagado debe ser igual al valor total.");
 		$('#alerta4').slideDown();
 	}
+}
+
+function ControlarSalida(){
+	var mujeres=parseInt($('#mujeres').val());
+	var hombres=parseInt($('#hombres').val());
+	var datosalidas=$('#registros').val().split('@');
+	var rh=parseInt(datosalidas[3])+parseInt(datosalidas[4])-parseInt(datosalidas[5]);
+	var rm=parseInt(datosalidas[0])+parseInt(datosalidas[1])-parseInt(datosalidas[2]);
+	var quienes='';
+	var cont=0;
+	if(rh!=hombres){
+		quienes+='hombres';
+		cont++;
+	}
+	if(rm!=mujeres){
+		if(cont>0) quienes+=',';
+		quienes+='mujeres';
+		cont++;
+	}
+	console.log(mujeres+'|'+hombres+'|'+rh+'|'+rm);
+	if(cont==0){
+		$('#alerta4').css('display','none');
+		$('#alerta4').html('');
+		$('#divsalida').css('display','none');
+		$('#divpagos').fadeIn('slow');
+	}else{
+		$('#alerta4').html("El número de hombres y mujeres que ingresan y salen debe coincidir.");
+		$('#alerta4').slideDown();
+	}
+}
+
+function VerificarFormas(){
+	if(parseFloat($('#f_2').val())==0)
+		EnviarPagos();
+	else
+		alert("Tarjeta de Crédito");
 }
