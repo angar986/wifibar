@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/*var app = {
+var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -33,9 +33,10 @@
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        alert("Aqui inicia codigo");
+        var uuid = device.uuid;
+		alert(uuid);
     }
-};*/
+};
 
  function onDeviceReady(){
 	//alert(device.uuid);
