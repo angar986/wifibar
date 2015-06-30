@@ -38,6 +38,7 @@
 };*/
 
  function onDeviceReady(){
+	alert(device.uuid);
     var db = window.openDatabase("Database", "1.0", "BarWifi",200000);
     db.transaction(iniciaDB, errorCB, successCB);
 	datosuser();
