@@ -108,6 +108,7 @@ function ConsumosCliente(){
 		}
 	}  
 	var miid=$('#idcliente').val();
+	alert($('#barrascaja').html());
 	if(miid!=''){
 		$('#btnver').html("<img src='images/loader.gif' width='15px;'/>");
 		$.ajax({
