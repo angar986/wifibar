@@ -184,6 +184,7 @@ function EnviarPagos(){
 		});
 		//console.log(arraypagos);
 		var miid=$('#idcliente').val();
+		alert($('#barrascaja').html());
 		$.ajax({
 		url: "http://"+$('#ipnumber').val()+"/conexionwifi/index.php",
 			data:{data:4,idcli:miid,jsonpagos:JSON.stringify(arraypagos),vuelto:$('#changeFromPurchase').html(),barras:$('#barrascaja').html(),card:$('#cardnumber').html(),m:$('#mujeres').val(),h:$('#hombres').val(),dataemp:$('#dataemp').html()},
