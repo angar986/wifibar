@@ -1,12 +1,12 @@
 var loged=false;
-$(document).ready(function(){onDeviceReady();});
+$(document).ready(function(){});
 function Seguir(){
 		var miip=$('#ipnumber').val();
 		if(miip.length>6){
 			$('#btnseguir').html("<img src='images/loader.gif' width='15px;'/>");
 			$.ajax({
 				url: "http://"+miip+"/conexionwifi/index.php",
-				data:{equipo:1550,data:1},
+				data:{equipo:device.uuid,data:1},
 				error: function (xhr, ajaxOptions, thrownError){
 					$('#alerta1').html("Servidor no encontrado.");
 					$('#alerta1').slideDown();

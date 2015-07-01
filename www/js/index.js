@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
+/*var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -36,16 +36,17 @@ var app = {
         var uuid = device.uuid;
 		alert(uuid);
     }
-};
+};*/
 
  function onDeviceReady(){
 	//alert(device.uuid);
-	try {
+	/*try {
       var uuid = device.uuid;
 	  alert(uuid);
 	} catch (e) {
       alert(e);
-    }
+    }*/
+	//alert('entra');
     var db = window.openDatabase("Database", "1.0", "BarWifi",200000);
     db.transaction(iniciaDB, errorCB, successCB);
 	datosuser();
