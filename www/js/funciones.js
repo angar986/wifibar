@@ -6,8 +6,8 @@ function Seguir(){
 			$('#btnseguir').html("<img src='images/loader.gif' width='15px;'/>");
 			$.ajax({
 				url: "http://"+miip+"/conexionwifi/index.php",
-				//data:{equipo:device.uuid,data:1},
-				data:{equipo:'5c8f785f35213184',data:1},
+				data:{equipo:device.uuid,data:1},
+				//data:{equipo:'5c8f785f35213184',data:1},
 				error: function (xhr, ajaxOptions, thrownError){
 					$('#alerta1').html("Servidor no encontrado.");
 					$('#alerta1').slideDown();
