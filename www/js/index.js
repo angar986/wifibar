@@ -75,7 +75,7 @@
     db.transaction(
 	function (tx){
 		if(cual==1)
-			tx.executeSql('INSERT INTO LOGINDATA (ip,maquina) VALUES (?,?);',[data,'1550']);	
+			tx.executeSql('INSERT INTO LOGINDATA (ip,maquina) VALUES (?,?);',[data,$('#barracaja').html()]);	
 		if(cual==2){
 			var midata=data.split('|');
 			tx.executeSql('UPDATE LOGINDATA SET username=?,pass=?,maquina=?,registrado=1',[midata[0],midata[1],midata[2]]);
